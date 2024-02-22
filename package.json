@@ -1,5 +1,6 @@
 {
   "name": "vue-test",
+  "type": "module",
   "version": "0.0.0",
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--no-warnings' vite",
