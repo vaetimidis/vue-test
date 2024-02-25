@@ -1,13 +1,15 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 
+interface IBrand {
+  id: number
+  title: string
+  sort: string
+  code: string
+}
+
 interface State {
-  brands: {
-    id: number
-    title: string
-    sort: string
-    code: string
-  }[]
+  brands: IBrand[]
 }
 
 export const useBrandStore = defineStore('brands', {

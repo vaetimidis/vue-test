@@ -1,23 +1,56 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { IProduct } from '../store/product'
+import { sortProducts } from '@/helpers/sort'
 import { useBrandStore } from '@/store/brand'
+import { useProductStore } from '@/store/product'
 
-interface IBrand {
+export interface IBrand {
   id: number
   title: string
   sort: string
   code: string
 }
 
-const brandStore = useBrandStore()
+interface State {
+  brand: IBrand | null
+  products: IProduct[]
+}
 
+const productsStore = useProductStore()
+const brandStore = useBrandStore()
 brandStore.fetchBrands()
+
 const drawer = ref(false)
 
-const selectedBrand = ref<IBrand>()
-function selectBrand(brand: IBrand) {
-  selectedBrand.value = brand
+const LS_BRAND = JSON.parse(localStorage.getItem('selectedState') || 'null') as IBrand
+
+const state = ref<State>({
+  brand: LS_BRAND || null,
+  products: [],
+})
+
+async function selectBrand(brand: IBrand) {
+  state.value.brand = brand
   drawer.value = !drawer.value
+
+  const result = await sortProducts(brand.id)
+
+  productsStore.products = result
+
+  state.value.products = result
+
+  localStorage.setItem('selectedState', JSON.stringify(state.value))
+}
+
+async function resetProducts() {
+  state.value.brand = null
+  drawer.value = !drawer.value
+  const result = await sortProducts(0)
+
+  productsStore.products = result
+  localStorage.removeItem('selectedState')
 }
 </script>
 
@@ -33,10 +66,13 @@ function selectBrand(brand: IBrand) {
           <v-card-title>Brands</v-card-title>
           <v-card-text>
             <v-list>
-              <v-list-item v-for="brand in brandStore.brands" :key="brand.id" :class="{ 'brand-selected': selectedBrand === brand }" class="brand-item" @click="selectBrand(brand)">
+              <v-list-item v-for="brand in brandStore.brands" :key="brand.id" :class="{ 'brand-selected': state.brand === brand }" class="brand-item" @click="selectBrand(brand)">
                 <v-list-item-title>{{ brand.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
+            <v-btn color="error" @click="resetProducts">
+              Reset
+            </v-btn>
           </v-card-text>
         </v-card>
       </v-navigation-drawer>
