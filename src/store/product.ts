@@ -32,7 +32,7 @@ export const useProductStore = defineStore('product', {
         const response = await axios.get('/public/products.json')
         this.products = response.data
         const localStorageProducts = JSON.parse(localStorage.getItem('selectedState') || '[]') as State
-        if (localStorageProducts.products.length > 0)
+        if (localStorageProducts.products)
           this.products = localStorageProducts.products
 
         else localStorage.setItem('selectedState', JSON.stringify(this.products))
