@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useProductStore } from '../store/product'
 import Default from '@/layouts/default.vue'
-import Card from '@/components/Card.vue'
+import ProductCard from '@/components/ProductCard.vue'
 
 const productStore = useProductStore()
 
@@ -10,10 +10,10 @@ productStore.fetchProducts()
 
 <template>
   <Default>
-    <v-container>
-      <v-row align="center" wrap>
-        <v-col v-for="item in productStore.products" :key="item.id" cols="3">
-          <Card v-bind="item" />
+    <v-container class="container">
+      <v-row align="start" wrap>
+        <v-col v-for="item in productStore.products" :key="item.id" cols="12" sm="6" md="4" lg="3">
+          <ProductCard v-bind="item" />
         </v-col>
       </v-row>
     </v-container>

@@ -1,0 +1,84 @@
+<!-- eslint-disable vue/prop-name-casing -->
+<script setup lang="ts">
+import type { Ref } from 'vue'
+import { ref } from 'vue'
+
+interface Props {
+  type: string
+  id: number
+  sku: string
+  title: string
+  regular_price: {
+    currency: string
+    value: number
+  }
+  image: string
+  brand: number
+}
+
+defineProps<Props>()
+
+const buyMode = ref(false)
+const quantity = ref(0) as Ref
+
+function toggleBuy() {
+  buyMode.value = !buyMode.value
+}
+
+function increment() {
+  quantity.value++
+}
+
+function decrement() {
+  if (quantity.value > 0)
+    quantity.value--
+}
+</script>
+
+<template>
+  <v-card class="mx-auto">
+    <v-img height="200" :src="image" class="text-white" />
+    <v-card-subtitle class="text-center">
+      {{ title }}
+    </v-card-subtitle>
+    <v-card-subtitle class="text-center">
+      {{ brand }}
+    </v-card-subtitle>
+    <v-card-subtitle class="text-center">
+      {{ regular_price.value }} $
+    </v-card-subtitle>
+    <template v-if="quantity.value === 0">
+      <v-btn class="w-100" @click="toggleBuy">
+        Buy
+      </v-btn>
+    </template>
+    <template v-else>
+      <div class="active-btn">
+        <v-btn class="button-minus" @click="decrement">
+          -
+        </v-btn>
+        <span>{{ quantity }}</span>
+        <v-btn class="button-plus" @click="increment">
+          +
+        </v-btn>
+      </div>
+    </template>
+  </v-card>
+</template>
+
+<style scoped>
+.v-btn {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.active-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-minus, .button-plus {
+  width: 25%;
+}
+</style>
