@@ -18,11 +18,10 @@ interface Props {
 
 defineProps<Props>()
 
-const buyMode = ref(false)
 const quantity = ref(0) as Ref
 
 function toggleBuy() {
-  buyMode.value = !buyMode.value
+  quantity.value = 1
 }
 
 function increment() {
@@ -47,7 +46,7 @@ function decrement() {
     <v-card-subtitle class="text-center">
       {{ regular_price.value }} $
     </v-card-subtitle>
-    <template v-if="quantity.value === 0">
+    <template v-if="quantity === 0">
       <v-btn class="w-100" @click="toggleBuy">
         Buy
       </v-btn>
