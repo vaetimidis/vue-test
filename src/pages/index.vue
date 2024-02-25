@@ -11,7 +11,7 @@ productStore.fetchProducts()
 <template>
   <Default>
     <v-container class="container">
-      <v-row align="start" wrap class="align-top">
+      <v-row v-if="!!productStore.products.length" align="start" wrap class="align-top">
         <v-col v-for="item in productStore.products" :key="item.id" cols="12" sm="6" md="4" lg="3">
           <ProductCard v-bind="item" />
         </v-col>

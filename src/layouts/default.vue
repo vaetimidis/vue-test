@@ -1,6 +1,5 @@
-<!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { IProduct } from '../store/product'
 import { sortProducts } from '@/helpers/sort'
 import { useBrandStore } from '@/store/brand'
@@ -24,12 +23,17 @@ brandStore.fetchBrands()
 
 const drawer = ref(false)
 
-const LS_BRAND = JSON.parse(localStorage.getItem('selectedState') || 'null') as IBrand
-
 const state = ref<State>({
-  brand: LS_BRAND || null,
+  brand: null,
   products: [],
 })
+
+function isBrandSelected(brand: IBrand): boolean {
+  if (state.value.brand && state.value.brand.id === brand.id)
+    return true
+
+  return false
+}
 
 async function selectBrand(brand: IBrand) {
   state.value.brand = brand
@@ -38,9 +42,7 @@ async function selectBrand(brand: IBrand) {
   const result = await sortProducts(brand.id)
 
   productsStore.products = result
-
   state.value.products = result
-
   localStorage.setItem('selectedState', JSON.stringify(state.value))
 }
 
@@ -52,6 +54,12 @@ async function resetProducts() {
   productsStore.products = result
   localStorage.removeItem('selectedState')
 }
+
+onMounted(() => {
+  const savedState = JSON.parse(localStorage.getItem('selectedState') || '{}')
+  if (savedState.brand)
+    state.value.brand = savedState.brand
+})
 </script>
 
 <template>
@@ -66,7 +74,7 @@ async function resetProducts() {
           <v-card-title>Brands</v-card-title>
           <v-card-text>
             <v-list>
-              <v-list-item v-for="brand in brandStore.brands" :key="brand.id" :class="{ 'brand-selected': state.brand === brand }" class="brand-item" @click="selectBrand(brand)">
+              <v-list-item v-for="brand in brandStore.brands" :key="brand.id" :class="{ 'brand-selected': isBrandSelected(brand) }" class="brand-item" @click="selectBrand(brand)">
                 <v-list-item-title>{{ brand.title }}</v-list-item-title>
               </v-list-item>
             </v-list>
