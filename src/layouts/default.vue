@@ -55,7 +55,7 @@ onMounted(() => {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; /* Ensure the header is on top of other content */
+  z-index: 1000;
 }
 
 .container {
@@ -74,7 +74,6 @@ onMounted(() => {
   margin-right: 20px;
 }
 
-/* Добавляем стили для фиксированного бургер-меню */
 .v-navigation-drawer {
   position: fixed;
   top: 0;
