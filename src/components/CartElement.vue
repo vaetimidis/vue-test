@@ -1,7 +1,8 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable vue/prop-name-casing -->
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, ref } from 'vue'
+import { useCartStore } from '../store/cart'
 
 interface Props {
   type: string
@@ -16,19 +17,26 @@ interface Props {
   brand: number
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
-function increaseAmount() {
-//   props.amount += 1
+const cartStore = useCartStore()
+const quantity = ref(0)
+
+quantity.value = cartStore.getItem(props.id)
+
+function updateQuantity(id: number, target: EventTarget | null) {
+  if (target) {
+    const value = (target as HTMLInputElement).value
+    quantity.value = +value
+
+    if (quantity.value > 0)
+      cartStore.updateQuantity(id, quantity.value)
+    else cartStore.removeItem(id)
+  }
 }
 
-function decreaseAmount() {
-//   if (props.amount > 1)
-//     props.amount--
-}
-
-function removeItem() {
-  // Implement logic to remove item from the cart
+function removeItem(id: number) {
+  cartStore.removeItem(id)
 }
 </script>
 
@@ -41,17 +49,14 @@ function removeItem() {
       <p>{{ brand }} / {{ title }}</p>
       <p>Price: {{ regular_price.value }} $</p>
       <div class="cart-item__quantity">
-        <!-- <p>Quantity: {{ amount }}</p> -->
-        <button @click="increaseAmount">
-          +
-        </button>
-        <button @click="decreaseAmount">
-          -
-        </button>
+        <p>Quantity:</p>
+        <div class="quantity-input">
+          <input type="number" :value="quantity" @blur="updateQuantity(props.id, $event.target)" @keydown.enter="updateQuantity(props.id, $event.target)">
+        </div>
       </div>
-      <!-- <p>Total: {{ regular_price.value * amount }} {{ regular_price.currency }}</p> -->
+      <p>Total: {{ (regular_price.value * quantity).toFixed(2) }} {{ regular_price.currency }}</p>
     </div>
-    <v-icon class="delete-icon" @click="removeItem">
+    <v-icon class="delete-icon" @click="removeItem(props.id)">
       mdi-delete
     </v-icon>
   </div>
@@ -92,6 +97,26 @@ function removeItem() {
 }
 
 .delete-icon {
+  cursor: pointer;
+}
+
+.cart-item__quantity {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-input {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-input input {
+  width: 40px;
+  text-align: center;
+}
+
+.quantity-input button {
+  padding: 5px 10px;
   cursor: pointer;
 }
 

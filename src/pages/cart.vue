@@ -4,18 +4,19 @@ import Cart from '@/layouts/cart.vue'
 import CartElement from '@/components/CartElement.vue'
 
 const cartStore = useCartStore()
+cartStore.fetchItems()
 </script>
 
 <template>
   <Cart>
     <v-container v-if="cartStore.items.length > 0">
-      <v-col v-for="item in cartStore.items" :key="item.id">
+      <v-col v-for="item in cartStore.products" :key="item.id">
         <CartElement v-bind="item" />
       </v-col>
       <v-container class="cart-footer">
         <v-row align="center" justify="end">
           <v-col cols="12">
-            <p>Total: </p>
+            <p>Total: {{ cartStore.totalPrice }}</p>
           </v-col>
           <v-col cols="12">
             <v-btn>
