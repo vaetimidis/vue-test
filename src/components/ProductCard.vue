@@ -19,17 +19,16 @@ defineProps<Props>()
 
 const quantity = ref(0)
 
-function toggleBuy() {
+function decrement() {
+  if (quantity.value > 0)
+    quantity.value--
+}
+function addItem() {
   quantity.value = 1
 }
 
 function increment() {
   quantity.value++
-}
-
-function decrement() {
-  if (quantity.value > 0)
-    quantity.value--
 }
 </script>
 
@@ -46,7 +45,7 @@ function decrement() {
       price: {{ regular_price.value }} $
     </v-card-subtitle>
     <template v-if="quantity === 0">
-      <v-btn class="w-100" @click="toggleBuy">
+      <v-btn class="w-100" @click="addItem">
         Buy
       </v-btn>
     </template>
@@ -74,9 +73,11 @@ function decrement() {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 15px;
 }
 
 .button-minus, .button-plus {
+  margin: 0;
   width: 25%;
 }
 </style>

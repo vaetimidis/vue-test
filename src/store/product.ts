@@ -31,6 +31,7 @@ export const useProductStore = defineStore('product', {
       try {
         const response = await api().products.getProducts()
         this.products = response.data
+
         const localStorageProducts = JSON.parse(localStorage.getItem('selectedState') || '[]') as State
         if (localStorageProducts.products)
           this.products = localStorageProducts.products

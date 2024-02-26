@@ -14,9 +14,14 @@ brandStore.fetchBrands()
 <template>
   <Default>
     <v-container class="container">
-      <v-row v-if="!!productStore.products.length" align="start" wrap class="align-top">
+      <v-row v-if="!!productStore.products.length" wrap class="align-top">
         <v-col v-for="item in productStore.products" :key="item.id" cols="12" sm="6" md="4" lg="3">
           <ProductCard v-bind="item" />
+        </v-col>
+      </v-row>
+      <v-row v-else align="center" justify="center">
+        <v-col cols="12" class="text-center">
+          <p>No items found</p>
         </v-col>
       </v-row>
     </v-container>

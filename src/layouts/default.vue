@@ -16,7 +16,7 @@ onMounted(() => {
 <template>
   <v-layout class="rounded rounded-md">
     <v-app>
-      <v-app-bar app>
+      <v-app-bar app class="fixed-header" style="position: fixed;">
         <v-app-bar-nav-icon @click="brandStore.drawer = !brandStore.drawer" />
         <v-toolbar-title>Privet</v-toolbar-title>
         <router-link to="/cart" class="icon-link">
@@ -25,7 +25,7 @@ onMounted(() => {
           </v-badge>
         </router-link>
       </v-app-bar>
-      <v-navigation-drawer v-model="brandStore.drawer" app temporary>
+      <v-navigation-drawer v-model="brandStore.drawer" app temporary style="position: fixed; top: 20px; height: 100%;">
         <v-card>
           <v-card-title>Brands</v-card-title>
           <v-card-text>
@@ -41,7 +41,7 @@ onMounted(() => {
         </v-card>
       </v-navigation-drawer>
       <v-main
-        class="d-flex align-center justify-center mt-10"
+        class="d-flex align-start justify-start mt-10"
         style="min-height: 300px"
       >
         <slot />
@@ -50,17 +50,33 @@ onMounted(() => {
   </v-layout>
 </template>
 
- <style scoped>
- .container {
+<style scoped>
+.fixed-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure the header is on top of other content */
+}
+
+.container {
   max-width: 1400px;
 }
 
- .brand-item:hover {
+.brand-item:hover {
   text-decoration: underline;
 }
- .brand-selected { text-decoration: underline; }
 
- .icon-link {
+.brand-selected {
+  text-decoration: underline;
+}
+
+.icon-link {
   margin-right: 20px;
+}
+
+/* Добавляем стили для фиксированного бургер-меню */
+.v-navigation-drawer {
+  position: fixed;
+  top: 0;
 }
 </style>
