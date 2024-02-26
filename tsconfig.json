@@ -17,7 +17,6 @@
     },
     "resolveJsonModule": true,
     "types": [
-      "vite-plugin-vue-layouts/client",
       "node"
     ],
     "strict": true,

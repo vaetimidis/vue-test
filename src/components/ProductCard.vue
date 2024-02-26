@@ -1,6 +1,5 @@
 <!-- eslint-disable vue/prop-name-casing -->
 <script setup lang="ts">
-import type { Ref } from 'vue'
 import { ref } from 'vue'
 
 interface Props {
@@ -18,7 +17,7 @@ interface Props {
 
 defineProps<Props>()
 
-const quantity = ref(0) as Ref
+const quantity = ref(0)
 
 function toggleBuy() {
   quantity.value = 1
@@ -41,10 +40,10 @@ function decrement() {
       {{ title }}
     </v-card-subtitle>
     <v-card-subtitle class="text-center">
-      {{ brand }}
+      brand: {{ brand }}
     </v-card-subtitle>
     <v-card-subtitle class="text-center">
-      {{ regular_price.value }} $
+      price: {{ regular_price.value }} $
     </v-card-subtitle>
     <template v-if="quantity === 0">
       <v-btn class="w-100" @click="toggleBuy">

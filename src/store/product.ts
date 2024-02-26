@@ -1,7 +1,7 @@
 // Utilities
 import { defineStore } from 'pinia'
-import axios from 'axios'
-import type { IBrand } from '@/layouts/default.vue'
+import type { IBrand } from './brand'
+import { api } from '@/utils'
 
 export interface IProduct {
   type: string
@@ -29,7 +29,7 @@ export const useProductStore = defineStore('product', {
   actions: {
     async fetchProducts() {
       try {
-        const response = await axios.get('/public/products.json')
+        const response = await api().products.getProducts()
         this.products = response.data
         const localStorageProducts = JSON.parse(localStorage.getItem('selectedState') || '[]') as State
         if (localStorageProducts.products)
