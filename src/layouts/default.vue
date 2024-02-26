@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useProductStore } from '../store/product'
 import { useBrandStore } from '../store/brand'
+import { useCartStore } from '../store/cart'
 
-const productStore = useProductStore()
 const brandStore = useBrandStore()
-
+const cartStore = useCartStore()
 onMounted(() => {
   const savedState = JSON.parse(localStorage.getItem('selectedState') || '{}')
   if (savedState.brand)
@@ -20,7 +19,7 @@ onMounted(() => {
         <v-app-bar-nav-icon @click="brandStore.drawer = !brandStore.drawer" />
         <v-toolbar-title>Privet</v-toolbar-title>
         <router-link to="/cart" class="icon-link">
-          <v-badge :content="productStore.products.length" overlap>
+          <v-badge :content="cartStore.items.length" overlap>
             <v-icon>mdi-cart</v-icon>
           </v-badge>
         </router-link>

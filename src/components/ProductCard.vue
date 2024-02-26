@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/prop-name-casing -->
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useCartStore } from '../store/cart'
 
 interface Props {
   type: string
@@ -15,20 +16,29 @@ interface Props {
   brand: number
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
+const cartStore = useCartStore()
 const quantity = ref(0)
 
-function decrement() {
+quantity.value = cartStore.getItem(props.id)
+
+function decrement(id: number) {
+  quantity.value -= 1
+
   if (quantity.value > 0)
-    quantity.value--
+    cartStore.updateQuantity(id, quantity.value)
+
+  else cartStore.removeItem(id)
 }
-function addItem() {
+function addItem(id: number) {
   quantity.value = 1
+  cartStore.addItem(id, quantity.value)
 }
 
-function increment() {
-  quantity.value++
+function increment(id: number) {
+  quantity.value += 1
+  cartStore.updateQuantity(id, quantity.value)
 }
 </script>
 
@@ -44,18 +54,18 @@ function increment() {
     <v-card-subtitle class="text-center">
       price: {{ regular_price.value }} $
     </v-card-subtitle>
-    <template v-if="quantity === 0">
-      <v-btn class="w-100" @click="addItem">
+    <template v-if="cartStore.getItem(id) === 0">
+      <v-btn class="w-100" @click="addItem(id)">
         Buy
       </v-btn>
     </template>
     <template v-else>
       <div class="active-btn">
-        <v-btn class="button-minus" @click="decrement">
+        <v-btn class="button-minus" @click="decrement(id)">
           -
         </v-btn>
-        <span>{{ quantity }}</span>
-        <v-btn class="button-plus" @click="increment">
+        <span>{{ cartStore.getItem(id) ? cartStore.getItem(id) : quantity }}</span>
+        <v-btn class="button-plus" @click="increment(id)">
           +
         </v-btn>
       </div>
