@@ -2,10 +2,13 @@
 import { useProductStore } from '../store/product'
 import Default from '@/layouts/default.vue'
 import ProductCard from '@/components/ProductCard.vue'
+import { useBrandStore } from '@/store/brand'
 
 const productStore = useProductStore()
+const brandStore = useBrandStore()
 
 productStore.fetchProducts()
+brandStore.fetchBrands()
 </script>
 
 <template>
