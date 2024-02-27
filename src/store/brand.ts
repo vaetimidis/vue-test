@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
-import { type IProduct, useProductStore } from './product'
-import { sortProducts } from '@/helpers/sort'
+import { useProductStore } from './product'
+import { filterProducts } from '@/utils/helpers/filter-products'
 import { api } from '@/utils'
+import type { IProduct } from '@/types/products'
+import type { IBrand } from '@/types/brand'
 
 interface State {
   brands: IBrand[]
@@ -12,13 +14,6 @@ interface State {
 interface ISelectedState {
   brand: IBrand | null
   products: IProduct[]
-}
-
-export interface IBrand {
-  id: number
-  title: string
-  sort: string
-  code: string
 }
 
 export const useBrandStore = defineStore('brands', {
@@ -50,14 +45,12 @@ export const useBrandStore = defineStore('brands', {
         return
 
       this.selectedState.brand = brand
-      const result = await sortProducts(brand.id)
-
       this.drawer = !this.drawer
 
       const productStore = useProductStore()
 
-      productStore.products = result
-      this.selectedState.products = result
+      productStore.products = await filterProducts(brand.id)
+      this.selectedState.products = await filterProducts(brand.id)
       localStorage.setItem('selectedState', JSON.stringify(this.selectedState))
     },
     async resetProducts() {
@@ -65,8 +58,7 @@ export const useBrandStore = defineStore('brands', {
       this.drawer = !this.drawer
       const productStore = useProductStore()
 
-      const result = await sortProducts(0)
-      productStore.products = result
+      productStore.products = await filterProducts(0)
       localStorage.removeItem('selectedState')
     },
   },

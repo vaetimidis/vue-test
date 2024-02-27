@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { onMounted } from 'vue'
 import { useProductStore } from '../store/product'
 import Default from '@/layouts/default.vue'
-import ProductCard from '@/components/ProductCard.vue'
+import ProductCard from '@/components/product-card.vue'
 import { useBrandStore } from '@/store/brand'
 
 const productStore = useProductStore()
@@ -9,6 +10,12 @@ const brandStore = useBrandStore()
 
 productStore.fetchProducts()
 brandStore.fetchBrands()
+
+onMounted(() => {
+  const savedState = JSON.parse(localStorage.getItem('selectedState') || '{}')
+  if (savedState.brand)
+    brandStore.selectedState.brand = savedState.brand
+})
 </script>
 
 <template>

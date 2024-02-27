@@ -4,7 +4,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 import indexVue from '@/pages/index.vue'
 import cartVue from '@/pages/cart.vue'
 
-const routes = [{ path: '/', component: indexVue }, { path: '/cart', component: cartVue }]
+export enum paths {
+  home = '/',
+  cart = '/cart',
+}
+
+const routes = [{ path: paths.home, component: indexVue }, { path: paths.cart, component: cartVue }]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
