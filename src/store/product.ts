@@ -1,8 +1,8 @@
 // Utilities
 import { defineStore } from 'pinia'
-import type { IBrand } from './brand'
 import { api } from '@/utils'
 import type { IProduct } from '@/types/products'
+import type { IBrand } from '@/types/brand'
 
 interface State {
   products: IProduct[]

@@ -1,5 +1,5 @@
 import type { AxiosInstance, AxiosPromise } from 'axios'
-import type { IProduct } from '../../store/product'
+import type { IProduct } from '@/types/products'
 
 export function productsApi(instance: AxiosInstance) {
   return {
