@@ -51,6 +51,7 @@ export const useBrandStore = defineStore('brands', {
 
       this.selectedState.brand = brand
       const result = await sortProducts(brand.id)
+
       this.drawer = !this.drawer
 
       const productStore = useProductStore()

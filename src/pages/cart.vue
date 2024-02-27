@@ -19,7 +19,7 @@ cartStore.fetchItems()
             <p>Total: {{ cartStore.totalPrice }}</p>
           </v-col>
           <v-col cols="12">
-            <v-btn>
+            <v-btn @click="cartStore.buyItems()">
               Buy
             </v-btn>
           </v-col>
@@ -39,7 +39,7 @@ cartStore.fetchItems()
   </Cart>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .cart-footer {
   width: 100%;
   display: flex;
@@ -64,6 +64,13 @@ cartStore.fetchItems()
     padding: 10px;
     background-color: white;
     box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+
+    .v-col {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
+
 }
 </style>
