@@ -1,12 +1,8 @@
 /* eslint-disable no-alert */
 import { defineStore } from 'pinia'
-import type { IProduct } from './product'
 import { api } from '@/utils'
-
-export interface ICartItem {
-  id: number
-  quantity: number
-}
+import type { IProduct } from '@/types/products'
+import type { ICartItem } from '@/types/cart-item'
 
 interface State {
   items: ICartItem[]
@@ -27,6 +23,9 @@ export const useCartStore = defineStore('cart', {
 
         return Number.parseFloat(total.toFixed(2))
       }, 0)
+    },
+    totalQuantity(): number {
+      return this.items.reduce((total, item) => total + item.quantity, 0)
     },
   },
   actions: {

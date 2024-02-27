@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useCartStore } from '../store/cart'
 import Cart from '@/layouts/cart.vue'
-import CartElement from '@/components/CartElement.vue'
+import CartElement from '@/components/cart-element.vue'
+import { paths } from '@/router'
 
 const cartStore = useCartStore()
 cartStore.fetchItems()
@@ -30,7 +31,7 @@ cartStore.fetchItems()
       <v-row class="fill-height" align="center" justify="center">
         <v-col cols="12" class="text-center">
           <p>No items in cart yet</p>
-          <router-link to="/" class="main-page-link">
+          <router-link :to="paths.home" class="main-page-link">
             Go to Main Page
           </router-link>
         </v-col>
@@ -52,6 +53,12 @@ cartStore.fetchItems()
 
 .main-page-link {
   margin-top: 10px;
+  text-decoration: none;
+
+  &:hover {
+    color: #ff5722;
+    cursor: pointer;
+  }
 }
 
 @media screen and (max-width: 768px) {

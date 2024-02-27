@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable vue/prop-name-casing -->
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 import { useCartStore } from '../store/cart'
 
 interface Props {
@@ -54,7 +54,7 @@ function removeItem(id: number) {
           <input type="number" :value="quantity" @input="updateQuantity(id, $event.target)">
         </div>
       </div>
-      <p>Total: {{ (regular_price.value * quantity).toFixed(2) }} {{ regular_price.currency }}</p>
+      <p>Total: {{ (regular_price.value * quantity).toFixed(2) }} $</p>
     </div>
     <v-icon class="delete-icon" @click="removeItem(id)">
       mdi-delete
