@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { defineStore } from 'pinia'
 import type { IProduct } from './product'
 import { api } from '@/utils'
@@ -71,6 +72,12 @@ export const useCartStore = defineStore('cart', {
     getItem(id: number) {
       const existingItem = this.items.find(item => item.id === id)
       return existingItem?.quantity ? existingItem.quantity : 0
+    },
+    async buyItems() {
+      const itemsString = this.items.map((item) => {
+        return `{ id: ${item.id}, quantity: ${item.quantity} }`
+      })
+      alert(itemsString.join(', '))
     },
   },
 })
