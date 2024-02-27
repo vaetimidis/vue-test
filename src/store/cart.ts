@@ -22,7 +22,7 @@ export const useCartStore = defineStore('cart', {
       return this.items.reduce((total, item) => {
         const product = this.products.find(product => product.id === item.id)
         if (product)
-          return total + product.regular_price.value * item.quantity
+          return Number.parseFloat((total + product.regular_price.value * item.quantity).toFixed(2))
 
         return Number.parseFloat(total.toFixed(2))
       }, 0)
@@ -40,6 +40,11 @@ export const useCartStore = defineStore('cart', {
     },
     removeItem(id: number) {
       this.items = this.items.filter(item => item.id !== id)
+
+      const cartItemIds = this.items.map(item => item.id)
+      const cartItems = this.products.filter(product => cartItemIds.includes(product.id))
+
+      this.products = cartItems
       localStorage.setItem('cartItems', JSON.stringify(this.items))
     },
     updateQuantity(id: number, quantity: number) {

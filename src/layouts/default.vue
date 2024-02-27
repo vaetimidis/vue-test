@@ -5,6 +5,7 @@ import { useCartStore } from '../store/cart'
 
 const brandStore = useBrandStore()
 const cartStore = useCartStore()
+
 onMounted(() => {
   const savedState = JSON.parse(localStorage.getItem('selectedState') || '{}')
   if (savedState.brand)

@@ -24,7 +24,7 @@ const quantity = ref(0)
 
 quantity.value = cartStore.getItem(props.id)
 
-function updateQuantity(id: number, target: EventTarget | null) {
+function updateQuantity(id: number, target: EventTarget | null): void {
   if (target) {
     const value = (target as HTMLInputElement).value
     quantity.value = +value
@@ -51,12 +51,12 @@ function removeItem(id: number) {
       <div class="cart-item__quantity">
         <p>Quantity:</p>
         <div class="quantity-input">
-          <input type="number" :value="quantity" @blur="updateQuantity(props.id, $event.target)" @keydown.enter="updateQuantity(props.id, $event.target)">
+          <input type="number" :value="quantity" @input="updateQuantity(id, $event.target)">
         </div>
       </div>
       <p>Total: {{ (regular_price.value * quantity).toFixed(2) }} {{ regular_price.currency }}</p>
     </div>
-    <v-icon class="delete-icon" @click="removeItem(props.id)">
+    <v-icon class="delete-icon" @click="removeItem(id)">
       mdi-delete
     </v-icon>
   </div>
